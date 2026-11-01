@@ -74,6 +74,31 @@ function sameAnswers(selected: string[], correct: string[]): boolean {
   );
 }
 
+function getWrongQuestions(session: Session): {
+  question: Question;
+  globalIndex: number;
+}[] {
+  return session.questions.flatMap((question, index) => {
+    const selected = session.answers[question.id] ?? [];
+
+    // Không coi câu bỏ trống là câu sai.
+    if (selected.length === 0) {
+      return [];
+    }
+
+    if (sameAnswers(selected, question.correctAnswers)) {
+      return [];
+    }
+
+    return [
+      {
+        question,
+        globalIndex: session.globalIndexes[index],
+      },
+    ];
+  });
+}
+
 function App() {
   const [examFiles, setExamFiles] = useState<ExamFile[]>([]);
   const [loadError, setLoadError] = useState('');
@@ -280,6 +305,43 @@ function App() {
     setSession(null);
   };
 
+  const retryWrongQuestions = () => {
+    if (!session || !session.submitted) return;
+
+    const wrongItems = getWrongQuestions(session);
+
+    if (wrongItems.length === 0) return;
+
+    const ordered = session.settings.shuffleQuestions ? shuffle(wrongItems) : wrongItems;
+
+    const durationSeconds = (examFiles[0]?.settings?.durationMinutes ?? 130) * 60;
+
+    const retrySession: Session = {
+      ...session,
+      questions: ordered.map((item) => item.question),
+      globalIndexes: ordered.map((item) => item.globalIndex),
+      answers: {},
+      optionOrders: Object.fromEntries(
+        ordered.map(({ question }) => [
+          question.id,
+          session.settings.examMode
+            ? shuffle(question.options).map((option) => option.id)
+            : question.options.map((option) => option.id),
+        ]),
+      ),
+      confirmed: [],
+      currentIndex: 0,
+      startedAt: Date.now(),
+      durationSeconds,
+      submitted: false,
+    };
+
+    setSession(retrySession);
+    setRemaining(durationSeconds);
+    setShowSubmitDialog(false);
+    setSidebarOpen(true);
+  };
+
   if (loadError) {
     return (
       <main className="load-state">
@@ -439,6 +501,11 @@ function App() {
   }
 
   if (session.submitted) {
+    const wrongItems = getWrongQuestions(session);
+
+    const skippedCount = session.questions.filter(
+      (question) => (session.answers[question.id] ?? []).length === 0,
+    ).length;
     const reviewItems = session.questions.map((question, index) => ({
       question,
       index,
@@ -477,21 +544,32 @@ function App() {
               <span>Điểm số</span>
             </div>
           </div>
+
           <div className="result-stats">
             <div>
               <strong>{correctCount}</strong>
               <span>Đúng</span>
             </div>
             <div>
-              <strong>{session.questions.length - correctCount}</strong>
-              <span>Sai / bỏ trống</span>
+              <strong>{wrongItems.length}</strong>
+              <span>Sai</span>
             </div>
             <div>
-              <strong>{answeredCount}</strong>
-              <span>Đã trả lời</span>
+              <strong>{skippedCount}</strong>
+              <span>Bỏ qua</span>
             </div>
           </div>
+
           <div className="result-actions">
+            <button
+              className="secondary-button"
+              disabled={wrongItems.length === 0}
+              onClick={retryWrongQuestions}
+            >
+              <RotateCcw size={17} />
+              Làm lại câu sai ({wrongItems.length})
+            </button>
+
             <button className="primary-button" onClick={() => beginNewSet(session.setNumber)}>
               <RotateCcw size={17} /> Làm lại set này
             </button>
