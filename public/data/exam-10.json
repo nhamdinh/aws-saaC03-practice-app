@@ -686,7 +686,7 @@
         },
         {
           "id": "C",
-          "text": "Create an Amazon DynamoDBB table. Update the application to use DynamoDB"
+          "text": "Create an Amazon DynamoDB table. Update the application to use DynamoDB"
         }
       ],
       "correctAnswers": ["B"],
@@ -720,7 +720,7 @@
         },
         {
           "id": "C",
-          "text": "Store the IP addresses in an Amazon DynamoDBB table. Configure an AWS Lambda authorization function on the ALB to validate that incoming requests are from the registered IP addresses."
+          "text": "Store the IP addresses in an Amazon DynamoDB table. Configure an AWS Lambda authorization function on the ALB to validate that incoming requests are from the registered IP addresses."
         },
         {
           "id": "D",
@@ -1127,7 +1127,7 @@
       "options": [
         {
           "id": "A",
-          "text": "Deploy Amazon DynamoDBB as the database solution. Provision on-demand capacity."
+          "text": "Deploy Amazon DynamoDB as the database solution. Provision on-demand capacity."
         },
         {
           "id": "B",
@@ -1135,7 +1135,7 @@
         },
         {
           "id": "C",
-          "text": "Deploy Amazon DynamoDBB as the database solution. Ensure that DynamoDBB auto scaling is enabled."
+          "text": "Deploy Amazon DynamoDB as the database solution. Ensure that DynamoDB auto scaling is enabled."
         },
         {
           "id": "D",
@@ -1575,7 +1575,7 @@
         },
         {
           "id": "C",
-          "text": "Amazon DynamoDBB"
+          "text": "Amazon DynamoDB"
         },
         {
           "id": "D",
@@ -1966,11 +1966,11 @@
       "options": [
         {
           "id": "A",
-          "text": "Migrate to Amazon RDS for Microsoft SOL Server. Use read replicas for reporting purposes"
+          "text": "Migrate to Amazon RDS for Microsoft SQL Server. Use read replicas for reporting purposes"
         },
         {
           "id": "B",
-          "text": "Use DynamoDBB on-demand replicas for reporting purposes"
+          "text": "Use DynamoDB on-demand replicas for reporting purposes"
         },
         {
           "id": "C",

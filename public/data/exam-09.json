@@ -600,7 +600,7 @@
           "text": "Use Amazon RDS deployed in a Multi-AZ instance deployment to create an Amazon Aurora database. Direct the reporting functions to the reader instances."
         }
       ],
-      "correctAnswers": ["D"],
+      "correctAnswers": ["C"],
       "metadata": {
         "domain": "Design High-Performing Architectures",
         "difficulty": "medium",

@@ -1116,9 +1116,13 @@
         {
           "id": "E",
           "text": "Use Amazon Translate to translate text in any language to English. F. Use Amazon Comprehend to create the sentiment analysis reports."
+        },
+        {
+          "id": "F",
+          "text": "Use Amazon Comprehend to create the sentiment analysis reports."
         }
       ],
-      "correctAnswers": ["D", "E"],
+      "correctAnswers": ["D", "E", "F"],
       "metadata": {
         "domain": "Design Resilient Architectures",
         "difficulty": "medium",
